@@ -48,7 +48,7 @@ def multiscale_entropy(time_series, scale, r):
 
     for element in scale_values:
         course_data = _course_grain(time_series=time_series, scale = element)
-        mse[element -1] = sample_entropy(data = course_data, m = 2, r = tol, delay = element)
+        mse[element -1] = sample_entropy(data = course_data, m = 2, r = tol, delay = 1)
 
     return mse
 
