@@ -105,7 +105,7 @@ def perm_entropy_norm(time_series, embed_dimension, delay):
     return entropy
 
 def dfa(time_series, bin_range):
-	integrated_ts = np.cumsum(time_series - np.mean(time_sereis))
+	integrated_ts = np.cumsum(time_series - np.mean(time_series))
 	
 	bins = np.arange(bin_range[0], bin_range[1] + 1, 1)
 	fluctuations = np.zeros(len(bin_size))
