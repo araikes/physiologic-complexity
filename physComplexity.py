@@ -22,6 +22,23 @@ def _moving_average(time_series, scale):
 
     return data
 
+def _rms(time_series, bin_size):
+	n_bins = int(len(time_series)/bin_size)
+	trend_lines = _detrended_bins(time_series, bin_size)
+	rmse = np.sqrt(np.mean((time_series[0:n_bins*bin_size] - trend_lines[0:n_bins*bin_size])**2))
+	
+	return rmse
+	
+def _detrended_bins(time_series, bin_size):
+	detrend_line = numpy.zeros(len(time_series))
+	
+	for i in range(0, len(time_series), bin_size):
+		xval = list(range(i, i + bin_size))
+		detrend_slope = numpy.polyfit(xval, time_series[xval], 1)
+		detrend_line[xval] = numpy.polyval(detrend_slope, xval)
+	
+	return detrend_line
+
 def sample_entropy(data, m, r, delay):
     data_points = len(data)
     m_matches = 0
@@ -65,7 +82,7 @@ def modified_multiscale_entropy(time_series, scale, r):
     return mmse
 
 
-def perm_entropy__norm(time_series, embed_dimension, delay):
+def perm_entropy_norm(time_series, embed_dimension, delay):
     data_points = len(time_series)
     perm_list = np.array(list(itertools.permutations(range(embed_dimension))))
 
@@ -86,3 +103,16 @@ def perm_entropy__norm(time_series, embed_dimension, delay):
 
     entropy = [embed_dimension, delay, pe, pe_norm]
     return entropy
+
+def dfa(time_series, bin_range):
+	integrated_ts = np.cumsum(x - np.mean(x))
+	
+	bins = numpy.arange(bin_range[0], bin_range[1] + 1, 1)
+	fluctuations = np.zeros(len(bin_size))
+	
+	for n, bin_size in enumerate(bins):
+		fluctuations[n] = _rms(integrated_ts, bin_size)
+	
+	alpha = numpy.polyfit(numpy.log2(bins), numpy.log2(fluctuations), 1)
+	
+	return alpha
