@@ -33,9 +33,10 @@ def _detrended_bins(time_series, bin_size):
 	detrend_line = np.zeros(len(time_series))
 	
 	for i in range(0, len(time_series), bin_size):
-		xval = list(range(i, i + bin_size))
-		detrend_slope = np.polyfit(xval, time_series[xval], 1)
-		detrend_line[xval] = np.polyval(detrend_slope, xval)
+		if i + bin_size <= len(time_series):
+			xval = list(range(i, i + bin_size))
+			detrend_slope = np.polyfit(xval, time_series[xval], 1)
+			detrend_line[xval] = np.polyval(detrend_slope, xval)
 	
 	return detrend_line
 
@@ -107,12 +108,12 @@ def perm_entropy_norm(time_series, embed_dimension, delay):
 def dfa(time_series, bin_range):
 	integrated_ts = np.cumsum(time_series - np.mean(time_series))
 	
-	bins = np.arange(bin_range[0], bin_range[1] + 1, 1)
-	fluctuations = np.zeros(len(bin_size))
+	bins = list(range(bin_range[0], bin_range[1] + 1, 1))
+	fluctuations = np.zeros(len(bins))
 	
 	for n, bin_size in enumerate(bins):
 		fluctuations[n] = _rms(integrated_ts, bin_size)
 	
-	alpha = np.polyfit(np.log2(bins), np.log2(fluctuations), 1)
+	alpha = np.polyfit(np.log2(bins), np.log2(fluctuations), 1)[0]
 	
 	return alpha
