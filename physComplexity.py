@@ -3,12 +3,13 @@ from __future__ import unicode_literals
 import itertools
 import numpy as np
 from math import factorial
+import matplotlib.pyplot as plt
 
 def _course_grain(time_series, scale):
     data_points = len(time_series)
-    data = np.zeros(int(data_points / scale) + (data_points % scale > 0))
+    data = np.zeros(int(data_points / scale))
 
-    for i in range(int(data_points / scale) + (data_points % scale > 0)):
+    for i in range(int(data_points / scale)):
         data[i] = np.mean(time_series[i * scale: (i + 1) * scale])
 
     return data
@@ -64,9 +65,10 @@ def multiscale_entropy(time_series, scale, r):
 
     mse = [0] * scale
 
-    for element in scale_values:
-        course_data = _course_grain(time_series=time_series, scale = element)
-        mse[element -1] = sample_entropy(data = course_data, m = 2, r = tol, delay = 1)
+    for i, scale_val in enumerate(scale_values):
+        course_data = _course_grain(time_series=time_series, scale = scale_val)
+        mse[i] = sample_entropy(data = course_data, m = 2, r = tol, delay = 1)
+        print('Scale value ', i, 'completed')
 
     return mse
 
@@ -105,7 +107,7 @@ def perm_entropy_norm(time_series, embed_dimension, delay):
     entropy = [embed_dimension, delay, pe, pe_norm]
     return entropy
 
-def dfa(time_series, bin_range):
+def dfa(time_series, bin_range, plot_dfa = True):
 	integrated_ts = np.cumsum(time_series - np.mean(time_series))
 	
 	bins = list(range(bin_range[0], bin_range[1] + 1, 1))
@@ -115,5 +117,12 @@ def dfa(time_series, bin_range):
 		fluctuations[n] = _rms(integrated_ts, bin_size)
 	
 	alpha = np.polyfit(np.log2(bins), np.log2(fluctuations), 1)[0]
+	
+	if plot_dfa:
+		fig, ax = plt.subplots()
+		plt.plot(bins, fluctuations)
+		ax.set_xscale('log', basex = 2)
+		ax.set_yscale('log', basey = 2)
+		plt.show()
 	
 	return alpha
