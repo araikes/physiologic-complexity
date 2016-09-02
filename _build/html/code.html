@@ -1,0 +1,281 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Auto Generated Documentation &mdash; Complexity 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Complexity 1.0.0 documentation" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-entropy">
+<span id="auto-generated-documentation"></span><h1>Auto Generated Documentation<a class="headerlink" href="#module-entropy" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="entropy.comp_multiscale_entropy">
+<code class="descclassname">entropy.</code><code class="descname">comp_multiscale_entropy</code><span class="sig-paren">(</span><em>time_series</em>, <em>tau</em>, <em>r</em><span class="sig-paren">)</span><a class="headerlink" href="#entropy.comp_multiscale_entropy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes composite multiscale entropy from a time series.</p>
+<p>The time series is course-grain averaged is averaged over windows of length :math:` au_i`. For each :math:` au_i`,
+the course-graining is computed on the original signal and at offsets from the first data value ranging from
+<span class="math">\(1 \leq k \leq        au_i\)</span>. This yields :math`       au_i` course-grained time series for each :math:`       au_i`.
+Sample entropy is calculated for all :math:`        au_i` time series and averaged.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>time_series</strong> &#8211; The time series</li>
+<li><strong>tau</strong> (<em>int</em>) &#8211; The maximum scale value</li>
+<li><strong>r</strong> &#8211; The percentage, in decimal form, of the time series standard deviation to form tolerance bands for sample
+entropy.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">cmse - An ndarray of length tau of the the average sample entropy at each tau value.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">References</p>
+<p>Wu, S.-D., Wu, C.-W., Lin, S.-G., Wang, C.-C., &amp; Lee, K.-Y. (2013). Time Series Analysis Using Composite
+Multiscale Entropy. Entropy, 15(3), 1069–1084. <a class="reference external" href="http://doi.org/10.3390/e15031069">http://doi.org/10.3390/e15031069</a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="entropy.generalized_multiscale_entropy">
+<code class="descclassname">entropy.</code><code class="descname">generalized_multiscale_entropy</code><span class="sig-paren">(</span><em>time_series</em>, <em>tau</em>, <em>r</em><span class="sig-paren">)</span><a class="headerlink" href="#entropy.generalized_multiscale_entropy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes generalized multiscale entropy.</p>
+<p>For this method of multiscale entropy, the course-grain variance is computed for the time series in non-overlapping
+windows of length :math:`   au_i`. Sample entropy is then computed on each course-grained variance series.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>time_series</strong> &#8211; The time series</li>
+<li><strong>tau</strong> (<em>int</em>) &#8211; The maximum scale value</li>
+<li><strong>r</strong> &#8211; The percentage, in decimal form, of the time series standard deviation to form tolerance bands for sample
+entropy.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">gmse - An ndarray of length tau sample entropy of the variance at each value of tau.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">References</p>
+<p>Costa, M., &amp; Goldberger, A. (2015). Generalized Multiscale Entropy Analysis: Application to Quantifying the
+Complex Volatility of Human Heartbeat Time Series. Entropy, 17(3), 1197–1203. <a class="reference external" href="http://doi.org/10.3390/e17031197">http://doi.org/10.3390/e17031197</a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="entropy.modified_multiscale_entropy">
+<code class="descclassname">entropy.</code><code class="descname">modified_multiscale_entropy</code><span class="sig-paren">(</span><em>time_series</em>, <em>tau</em>, <em>r</em><span class="sig-paren">)</span><a class="headerlink" href="#entropy.modified_multiscale_entropy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes modified multiscale entropy.</p>
+<p>This function is designed for short time series. For each value of tau, the data is averaged in overlapping moving
+windows of length tau. Then, for each moving-averaged time series, the sample entropy is computed with
+<span class="math">\(\delta = \tau\)</span>.</p>
+<p>Note that this procedure is time-consuming due to the number of template vectors per tau value time series.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>time_series</strong> &#8211; The time series of interest</li>
+<li><strong>tau</strong> &#8211; The maximum scale value</li>
+<li><strong>r</strong> &#8211; The percentage, in decimal form, of the time series standard deviation to form tolerance bands for sample
+entropy.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">mmmse - An ndarray of length tau with the sample entropy for each value of tau.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">References</p>
+<p>Wu, S.-D., Wu, C.-W., Lee, K.-Y., &amp; Lin, S.-G. (2013). Modified multiscale entropy for short-term time series
+analysis. Physica A, 392(23), 5865–5873. <a class="reference external" href="http://doi.org/10.1016/j.physa.2013.07.075">http://doi.org/10.1016/j.physa.2013.07.075</a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="entropy.multiscale_entropy">
+<code class="descclassname">entropy.</code><code class="descname">multiscale_entropy</code><span class="sig-paren">(</span><em>time_series</em>, <em>tau</em>, <em>r</em><span class="sig-paren">)</span><a class="headerlink" href="#entropy.multiscale_entropy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the entropy of a time series at multiple time scales using a course-grain averaging method.</p>
+<p>To accomplish this, the sample entropy of the time series is computed. The series is then course-grain averaged by
+values from <span class="math">\(2 \leq i \leq    au\)</span> and sample entropy is recomputed.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>time_series</strong> &#8211; The time series</li>
+<li><strong>tau</strong> (<em>int</em>) &#8211; The maximum scale value</li>
+<li><strong>r</strong> &#8211; The percentage, in decimal form, of the time series standard deviation to form tolerance bands for sample
+entropy.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">mse - An ndarray of length tau with the sample entropy at each scale value.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">References</p>
+<p>Costa, M., Goldberger, A. L., &amp; Peng, C.-K. (2002). Multiscale entropy analysis of complex physiologic time
+series. Physical Review Letters, 89(6), 068102.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="entropy.perm_entropy_norm">
+<code class="descclassname">entropy.</code><code class="descname">perm_entropy_norm</code><span class="sig-paren">(</span><em>time_series</em>, <em>embed_dimension</em>, <em>delay</em><span class="sig-paren">)</span><a class="headerlink" href="#entropy.perm_entropy_norm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes permutuation and normalized permutation entropy for a given time series.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>time_series</strong> &#8211; The time series</li>
+<li><strong>embed_dimension</strong> &#8211; The maximum of number of points to consider</li>
+<li><strong>delay</strong> &#8211; The delay between points in the time series when forming vectors of length embed_dimension</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><dl class="docutils">
+<dt>entropy - A list including the embedding dimension, the delay, the permuation entropy, and normalized</dt>
+<dd><p class="first last">permuation entropy</p>
+</dd>
+</dl>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">References</p>
+<p>Bandt, C., &amp; Pompe, B. (2002). Permutation entropy: a natural complexity measure for time series. Physical
+Review Letters, 88(17), 174102.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="entropy.sample_entropy">
+<code class="descclassname">entropy.</code><code class="descname">sample_entropy</code><span class="sig-paren">(</span><em>data</em>, <em>m</em>, <em>r</em>, <em>delay</em><span class="sig-paren">)</span><a class="headerlink" href="#entropy.sample_entropy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes sample entropy for a time series.</p>
+<p>For a given time series, first, construct template vectors of length m as
+<span class="math">\(x_i^m(\tau) = \{x_i, x_{(i + \delta)} ... x_{(i + (m-1)\delta)}\}, \qquad 1 \leq i \leq N - m\delta\)</span></p>
+<p>Second, calculate the Euclidean distance between each pair of template vectors such that:
+<span class="math">\(d_{ij}^m = \|(x_i^m(\delta) - x_j^m(\delta))\|_{\infty}, \qquad 1 \leq i,j \leq N -m\delta, \qquad  j &gt; i +
+\delta\)</span></p>
+<p>n(m, delta, r) is the total number of vectors pairs such that <span class="math">\(d_{ij}^m(\delta) \leq r\)</span>. This process is
+repeated for m + 1.</p>
+<p>Sample entropy is then computed as:
+<span class="math">\(SampEn(x, m, \delta, r) = -ln(\frac{n(m + 1, \delta, r)}{n(m, \delta, r)})\)</span></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>data</strong> &#8211; The time series</li>
+<li><strong>m</strong> (<em>int</em>) &#8211; The length of template vectors to be compared</li>
+<li><strong>r</strong> &#8211; The tolerance band around the vector endpoints</li>
+<li><strong>delay</strong> &#8211; The number of time series values between template vector endpoints.
+A delay value of one is a unity delay and denotes consecutive time series points.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">entropy - The sample entropy of the time series.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">References</p>
+<p>Richman, J. S., &amp; Moorman, J. R. (2000). Physiological time-series analysis using approximate entropy
+and sample entropy. American Journal of Physiology-Heart and Circulatory Physiology, 278(6), H2039–H2049.</p>
+<p>Govindan, R. B., Wilson, J. D., Eswaran, H., Lowery, C. L., &amp; Preißl, H. (2007). Revisiting sample entropy
+analysis. Physica A: Statistical Mechanics and Its Applications, 376, 158–164.
+<a class="reference external" href="http://doi.org/10.1016/j.physa.2006.10.077">http://doi.org/10.1016/j.physa.2006.10.077</a></p>
+</dd></dl>
+
+<span class="target" id="module-dfa"></span></div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/code.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Adam.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/code.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
