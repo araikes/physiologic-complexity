@@ -43,12 +43,12 @@
 <span id="auto-generated-documentation"></span><h1>Auto Generated Documentation<a class="headerlink" href="#module-entropy" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="entropy.comp_multiscale_entropy">
-<code class="descclassname">entropy.</code><code class="descname">comp_multiscale_entropy</code><span class="sig-paren">(</span><em>time_series</em>, <em>tau</em>, <em>r</em><span class="sig-paren">)</span><a class="headerlink" href="#entropy.comp_multiscale_entropy" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">entropy.</code><code class="descname">comp_multiscale_entropy</code><span class="sig-paren">(</span><em>time_series</em>, <em>tau</em>, <em>r</em>, <em>status</em><span class="sig-paren">)</span><a class="headerlink" href="#entropy.comp_multiscale_entropy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Computes composite multiscale entropy from a time series.</p>
-<p>The time series is course-grain averaged is averaged over windows of length :math:` au_i`. For each :math:` au_i`,
+<p>The time series is course-grain averaged is averaged over windows of length <span class="math">\(\tau_i\)</span>. For each <span class="math">\(\tau_i\)</span>,
 the course-graining is computed on the original signal and at offsets from the first data value ranging from
-<span class="math">\(1 \leq k \leq        au_i\)</span>. This yields :math`       au_i` course-grained time series for each :math:`       au_i`.
-Sample entropy is calculated for all :math:`        au_i` time series and averaged.</p>
+<span class="math">\(1 \leq k \leq \tau_i\)</span>. This yields :math`tau_i` course-grained time series for each <span class="math">\(\tau_i\)</span>.
+Sample entropy is calculated for all <span class="math">\(\tau_i\)</span> time series and averaged.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -58,6 +58,7 @@ Sample entropy is calculated for all :math:`        au_i` time series and averag
 <li><strong>tau</strong> (<em>int</em>) &#8211; The maximum scale value</li>
 <li><strong>r</strong> &#8211; The percentage, in decimal form, of the time series standard deviation to form tolerance bands for sample
 entropy.</li>
+<li><strong>status</strong> &#8211; When true, print a progress indicator after each tau value has run.</li>
 </ul>
 </td>
 </tr>
@@ -73,10 +74,10 @@ Multiscale Entropy. Entropy, 15(3), 1069–1084. <a class="reference external" h
 
 <dl class="function">
 <dt id="entropy.generalized_multiscale_entropy">
-<code class="descclassname">entropy.</code><code class="descname">generalized_multiscale_entropy</code><span class="sig-paren">(</span><em>time_series</em>, <em>tau</em>, <em>r</em><span class="sig-paren">)</span><a class="headerlink" href="#entropy.generalized_multiscale_entropy" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">entropy.</code><code class="descname">generalized_multiscale_entropy</code><span class="sig-paren">(</span><em>time_series</em>, <em>tau</em>, <em>r</em>, <em>status=True</em><span class="sig-paren">)</span><a class="headerlink" href="#entropy.generalized_multiscale_entropy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Computes generalized multiscale entropy.</p>
 <p>For this method of multiscale entropy, the course-grain variance is computed for the time series in non-overlapping
-windows of length :math:`   au_i`. Sample entropy is then computed on each course-grained variance series.</p>
+windows of length <span class="math">\(\tau_i\)</span>. Sample entropy is then computed on each course-grained variance series.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -86,6 +87,7 @@ windows of length :math:`   au_i`. Sample entropy is then computed on each cours
 <li><strong>tau</strong> (<em>int</em>) &#8211; The maximum scale value</li>
 <li><strong>r</strong> &#8211; The percentage, in decimal form, of the time series standard deviation to form tolerance bands for sample
 entropy.</li>
+<li><strong>status</strong> &#8211; When true, print a progress indicator after each tau value has run.</li>
 </ul>
 </td>
 </tr>
@@ -101,7 +103,7 @@ Complex Volatility of Human Heartbeat Time Series. Entropy, 17(3), 1197–1203. 
 
 <dl class="function">
 <dt id="entropy.modified_multiscale_entropy">
-<code class="descclassname">entropy.</code><code class="descname">modified_multiscale_entropy</code><span class="sig-paren">(</span><em>time_series</em>, <em>tau</em>, <em>r</em><span class="sig-paren">)</span><a class="headerlink" href="#entropy.modified_multiscale_entropy" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">entropy.</code><code class="descname">modified_multiscale_entropy</code><span class="sig-paren">(</span><em>time_series</em>, <em>tau</em>, <em>r</em>, <em>status=True</em><span class="sig-paren">)</span><a class="headerlink" href="#entropy.modified_multiscale_entropy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Computes modified multiscale entropy.</p>
 <p>This function is designed for short time series. For each value of tau, the data is averaged in overlapping moving
 windows of length tau. Then, for each moving-averaged time series, the sample entropy is computed with
@@ -116,10 +118,11 @@ windows of length tau. Then, for each moving-averaged time series, the sample en
 <li><strong>tau</strong> &#8211; The maximum scale value</li>
 <li><strong>r</strong> &#8211; The percentage, in decimal form, of the time series standard deviation to form tolerance bands for sample
 entropy.</li>
+<li><strong>status</strong> &#8211; When true, print a progress indicator after each tau value has run.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">mmmse - An ndarray of length tau with the sample entropy for each value of tau.</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">mmse - An ndarray of length tau with the sample entropy for each value of <span class="math">\(\tau_i\)</span>.</p>
 </td>
 </tr>
 </tbody>
@@ -131,10 +134,10 @@ analysis. Physica A, 392(23), 5865–5873. <a class="reference external" href="h
 
 <dl class="function">
 <dt id="entropy.multiscale_entropy">
-<code class="descclassname">entropy.</code><code class="descname">multiscale_entropy</code><span class="sig-paren">(</span><em>time_series</em>, <em>tau</em>, <em>r</em><span class="sig-paren">)</span><a class="headerlink" href="#entropy.multiscale_entropy" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">entropy.</code><code class="descname">multiscale_entropy</code><span class="sig-paren">(</span><em>time_series</em>, <em>tau</em>, <em>r</em>, <em>status</em><span class="sig-paren">)</span><a class="headerlink" href="#entropy.multiscale_entropy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Computes the entropy of a time series at multiple time scales using a course-grain averaging method.</p>
 <p>To accomplish this, the sample entropy of the time series is computed. The series is then course-grain averaged by
-values from <span class="math">\(2 \leq i \leq    au\)</span> and sample entropy is recomputed.</p>
+values from <span class="math">\(2 \leq i \leq \tau\)</span> and sample entropy is recomputed.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -144,6 +147,7 @@ values from <span class="math">\(2 \leq i \leq    au\)</span> and sample entropy
 <li><strong>tau</strong> (<em>int</em>) &#8211; The maximum scale value</li>
 <li><strong>r</strong> &#8211; The percentage, in decimal form, of the time series standard deviation to form tolerance bands for sample
 entropy.</li>
+<li><strong>status</strong> &#8211; When true, print a progress indicator after each tau value has run.</li>
 </ul>
 </td>
 </tr>
@@ -192,7 +196,7 @@ Review Letters, 88(17), 174102.</p>
 <code class="descclassname">entropy.</code><code class="descname">sample_entropy</code><span class="sig-paren">(</span><em>data</em>, <em>m</em>, <em>r</em>, <em>delay</em><span class="sig-paren">)</span><a class="headerlink" href="#entropy.sample_entropy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Computes sample entropy for a time series.</p>
 <p>For a given time series, first, construct template vectors of length m as
-<span class="math">\(x_i^m(\tau) = \{x_i, x_{(i + \delta)} ... x_{(i + (m-1)\delta)}\}, \qquad 1 \leq i \leq N - m\delta\)</span></p>
+<span class="math">\(x_i^m(\\tau) = \{x_i, x_{(i + \delta)} ... x_{(i + (m-1)\delta)}\}, \qquad 1 \leq i \leq N - m\delta\)</span></p>
 <p>Second, calculate the Euclidean distance between each pair of template vectors such that:
 <span class="math">\(d_{ij}^m = \|(x_i^m(\delta) - x_j^m(\delta))\|_{\infty}, \qquad 1 \leq i,j \leq N -m\delta, \qquad  j &gt; i +
 \delta\)</span></p>
