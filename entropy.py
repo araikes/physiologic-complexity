@@ -1,5 +1,4 @@
 from __future__ import unicode_literals
-
 import itertools
 import numpy as np
 from math import factorial
@@ -163,7 +162,6 @@ def comp_multiscale_entropy(time_series, tau, r, status):
     References:
         Wu, S.-D., Wu, C.-W., Lin, S.-G., Wang, C.-C., & Lee, K.-Y. (2013). Time Series Analysis Using Composite
         Multiscale Entropy. Entropy, 15(3), 1069–1084. http://doi.org/10.3390/e15031069
-
     """
     tol = r * np.std(time_series, ddof=1)
     scale_values = [x + 1 for x in range(tau)]
@@ -200,8 +198,6 @@ def generalized_multiscale_entropy(time_series, tau, r, status=True):
     References:
        Costa, M., & Goldberger, A. (2015). Generalized Multiscale Entropy Analysis: Application to Quantifying the
        Complex Volatility of Human Heartbeat Time Series. Entropy, 17(3), 1197–1203. http://doi.org/10.3390/e17031197
-
-
     """
     tol = r * np.std(time_series, ddof=1)
     scale_values = [x + 1 for x in range(tau)]
@@ -240,8 +236,6 @@ def modified_multiscale_entropy(time_series, tau, r, status=True):
     References:
         Wu, S.-D., Wu, C.-W., Lee, K.-Y., & Lin, S.-G. (2013). Modified multiscale entropy for short-term time series
         analysis. Physica A, 392(23), 5865–5873. http://doi.org/10.1016/j.physa.2013.07.075
-
-
     """
     tol = r * np.std(time_series, ddof=1)
     scale_values = [x + 1 for x in range(tau)]
