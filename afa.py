@@ -5,6 +5,18 @@ np.set_printoptions(suppress=True)
 
 
 def _detrending_coeff(win_len, order):
+    """ Computes the detrending coefficient matrix to apply to the time series.
+
+
+    Args:
+        win_len: The number of points to include
+        order: The polynomial order
+
+    Returns:
+        a: A win_length x order matrix
+        coeff_output: The coefficients for each order from 0 to order
+
+    """
     coeff_output = np.zeros((win_len, win_len), dtype = np.float64)
     if win_len % 2 == 0:
         n = int(win_len / 2)
@@ -24,6 +36,14 @@ def _detrending_coeff(win_len, order):
 
 
 def _integrate_data(data):
+    """ Creates an integrated time series. This is used when the original signal is white noise. The integration is the cumulative sum of the time series at each point.
+
+    Args:
+        data: The original time series
+
+    Returns:
+        integrated_data: The integrated time series.
+    """
     data = data - np.mean(data)
 
     integrated_data = np.cumsum(data)
@@ -32,6 +52,21 @@ def _integrate_data(data):
 
 
 def _first_segment(coeff, seg_len, nonoverlap_len, fit_order, w, data):
+    """ Computes the trend in the first data segment.
+
+    Args:
+        coeff: The trend-line coefficients
+        seg_len: The number of points for detrending
+        nonoverlap_len: The number of points to the left and right of the knitting region
+        fit_order: The polynomial order for detrending
+        w: The percentage of the segment for each point
+        data: The first set of points of length seg_len in the time series
+
+    Returns:
+        record_x: The x-values of the trend
+        record_y: The y-values of the trend
+
+    """
     data_len = len(data)
 
     xi_left = list(range(0, seg_len))
@@ -139,6 +174,21 @@ def _first_segment(coeff, seg_len, nonoverlap_len, fit_order, w, data):
 
 
 def _mid_segments(coeff, seg_index, seg_len, nonoverlap_len, w, data):
+    """ Computes the trend for the middle data segments
+
+    Args:
+        coeff: The trend-line coefficients
+        seg_len: The number of points for detrending
+        nonoverlap_len: The number of points to the left and right of the knitting region
+        fit_order: The polynomial order for detrending
+        w: The percentage of the segment for each point
+        data: The each set of points of length seg_len in the time series that are the first or last segments
+
+    Returns:
+        record_x: The x-values of the trend
+        record_y: The y-values of the trend
+
+    """
     xi_left = list(range((seg_index * (seg_len - 1)), ((seg_index + 1) * (seg_len - 1) + 1)))
     left_seg = data[xi_left]
     left_trend = coeff @ left_seg
@@ -167,6 +217,21 @@ def _mid_segments(coeff, seg_index, seg_len, nonoverlap_len, w, data):
 
 
 def _last_segment(coeff, seg_index, seg_len, nonoverlap_len, fit_order, w, data):
+    """ Computes the trend for the last data segment
+
+    Args:
+        coeff: The trend-line coefficients
+        seg_len: The number of points for detrending
+        nonoverlap_len: The number of points to the left and right of the knitting region
+        fit_order: The polynomial order for detrending
+        w: The percentage of the segment for each point
+        data: The last set of points of length seg_len in the time series
+
+    Returns:
+        record_x: The x-values of the trend
+        record_y: The y-values of the trend
+
+    """
     xi_left = list(range(seg_index * (seg_len - 1), (seg_index + 1) * (seg_len - 1) + 1))
     left_seg = data[xi_left]
     left_trend = coeff @ left_seg
@@ -250,6 +315,18 @@ def _last_segment(coeff, seg_index, seg_len, nonoverlap_len, fit_order, w, data)
 
 def detrending_method(data, seg_len, fit_order):
     # Persistent variable definitions
+    """ Detrends the time series over segments of length seg_len using a fit_order polynomial
+
+    Args:
+        data: The time series
+        seg_len: The number of points in each detrending segment
+        fit_order: The polynomial order for detrending
+
+    Returns:
+        detrended_data: The detrended data
+        trend: The trend line
+
+    """
     data_len = len(data)
     nonoverlap_len = int((seg_len - 1) / 2)
     w = [x / nonoverlap_len for x in list(range(0, nonoverlap_len + 1))]
@@ -277,6 +354,26 @@ def detrending_method(data, seg_len, fit_order):
 
 
 def multi_detrending(data, step_size, q, order, random_walk=True, plot_trend=False):
+    """ Applies the adaptive fractal detrending method to data.
+
+    Args:
+        data: The original time series
+        step_size: The resolution for determining the number of points in each segment. step_size = 1 is generally sufficient.
+        q: The q-spectrum. When using a list, the value results in a multifractal formulation
+        order: The order of the polynomial for detrending
+        random_walk: A logical flag indicating whether the time series is a random walk or white noise. If False, then the time series is first integrated. Default is True.
+        plot_trend: A logical flag indicating whether to plot the results. Default is False.
+
+    Returns:
+        detrended_data: The detrended time series
+        trend: The trend at each x-value
+        result: The fractal scaling coefficient
+
+    References:
+        Gao J, Hu J, Tung W. Facilitating joint chaos and fractal analysis of biosignals through nonlinear adaptive filtering. PloS one. 2011;6(9):e24331.
+
+
+    """
     if isinstance(q, int):
         q = [q]
 
@@ -293,11 +390,11 @@ def multi_detrending(data, step_size, q, order, random_walk=True, plot_trend=Fal
     detrended_data = np.zeros((max_seg_index, data_len))
     trend = np.zeros((max_seg_index, data_len))
 
-    detrended_data[0:,] = data
-    trend[0:,] = data
+    detrended_data[0:, ] = data
+    trend[0:, ] = data
 
     for index, seg_len in enumerate(segments):
-        detrended_data[index + 1:,], trend[index + 1:,] = detrending_method(data, seg_len, order)
+        detrended_data[index + 1:, ], trend[index + 1:,] = detrending_method(data, seg_len, order)
 
         result[0, index] = seg_len
         for i in list(range(0, len(q))):

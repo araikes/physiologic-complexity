@@ -53,7 +53,7 @@ def _moving_average(time_series, tau):
 
 
 def sample_entropy(data, m, r, delay):
-    r"""Computes sample entropy for a time series.
+    """Computes sample entropy for a time series.
 
     For a given time series, first, construct template vectors of length m as
     :math:`x_i^m(\\tau) = \{x_i, x_{(i + \delta)} ... x_{(i + (m-1)\delta)}\}, \qquad 1 \leq i \leq N - m\delta`
